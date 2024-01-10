@@ -42,7 +42,11 @@
             <template slot="title">
               <i class="el-icon-menu"></i><span>信息管理</span>
             </template>
+            <el-menu-item index="/category">博客分类</el-menu-item>
+            <el-menu-item index="/blog">博客信息</el-menu-item>
+            <el-menu-item index="/activity">活动信息</el-menu-item>
             <el-menu-item index="/notice">公告信息</el-menu-item>
+
           </el-submenu>
 
           <el-submenu index="user">
@@ -50,6 +54,7 @@
               <i class="el-icon-menu"></i><span>用户管理</span>
             </template>
             <el-menu-item index="/admin">管理员信息</el-menu-item>
+            <el-menu-item index="/user">用户信息</el-menu-item>
           </el-submenu>
         </el-menu>
       </div>
@@ -72,7 +77,8 @@ export default {
     }
   },
   created() {
-    if (!this.user.id) {
+    //防止登录到前台后试图登录后台，更稳健一点 限制用户 只允许管理员访问后台
+    if (!this.user.id || this.user.role !== 'ADMIN') {
       this.$router.push('/login')
     }
   },

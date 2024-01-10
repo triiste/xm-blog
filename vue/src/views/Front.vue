@@ -5,16 +5,22 @@
     <div class="front-header">
       <div class="front-header-left">
         <img src="@/assets/imgs/logo.png" alt="">
-        <div class="title">项目前台</div>
+        <div class="title">博客论坛平台</div>
       </div>
       <div class="front-header-center">
         <div class="front-header-nav">
           <el-menu :default-active="$route.path" mode="horizontal" router>
 						<el-menu-item index="/front/home">首页</el-menu-item>
+            <el-menu-item index="/front/activity">活动中心</el-menu-item>
 						<el-menu-item index="/front/person">个人中心</el-menu-item>
           </el-menu>
         </div>
       </div>
+      <div>
+        <el-input style="width: 260px; margin-right: 10px" placeholder="请输入关键字搜索"></el-input>
+        <el-button type="success">搜 索</el-button>
+      </div>
+
       <div class="front-header-right">
         <div v-if="!user.username">
           <el-button @click="$router.push('/login')">登录</el-button>
@@ -25,7 +31,7 @@
             <div class="front-header-dropdown">
               <img :src="user.avatar" alt="">
               <div style="margin-left: 10px">
-                <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+                <span style="color: #FFF">{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
             </div>
             <el-dropdown-menu slot="dropdown">

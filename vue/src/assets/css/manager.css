@@ -5,7 +5,7 @@
 
 .manager-header {
     display: flex;
-    background-color: #2c334c;
+    background-color: #0066bc;
 }
 
 .manager-header-left {
@@ -26,7 +26,7 @@
     margin-left: 5px;
     font-size: 20px;
     font-weight: bold;
-    color: #ddd
+    color: #eee
 }
 
 .manager-header-center {
@@ -47,7 +47,7 @@
     display: flex;
     align-items: center;
     padding-right: 10px;
-    color: #ccc;
+    color: #eee;
     cursor: default
 }
 
@@ -112,25 +112,30 @@
 .el-menu {
     width: 200px;
     height: 100%;
-    background-color: #222b40;
+    background-color: #00162a;
 }
 
 .el-submenu__title {
-    color: #ccc;
+    color: #ddd;
+    background-color: #011223 !important;
     height: 50px;
     line-height: 50px;
 }
 
 .el-menu-item {
-    color: #ccc;
+    color: #fff;
     height: 50px;
     line-height: 50px;
-    background-color: #222b40 !important; /* 必须加上这个背景色，否则鼠标离开会出现白色 */
+    background-color: #000b17 !important; /* 必须加上这个背景色，否则鼠标离开会出现白色 */
+}
+
+.el-menu-item i {
+    color: #fff !important;
 }
 
 .el-menu-item.is-active {
-    /*background-color: #2bb7e5 !important;*/
-    /*color: #fff;*/
+    background-color: #1890ff !important;
+    color: #fff;
 }
 
 .el-menu--inline .el-menu-item {
@@ -138,11 +143,11 @@
 }
 
 .el-menu .is-active {
-    color: #3399ff !important;
+    color: #fff !important;
 }
 
 .el-submenu__title:hover {
-    background-color: #222 !important;
+    /*background-color: #222 !important;*/
 }
 
 .el-menu-item:not(.is-active):hover {
@@ -151,15 +156,17 @@
 }
 
 .el-menu-item:hover {
-    background-color: #222 !important;
+    color: #fff !important;
+    background-color: #46a6ff !important;
 }
 
 .el-submenu__icon-arrow {
+    color: #ddd !important;
     margin-top: -5px;
 }
 
 .el-breadcrumb__inner {
-    color: #ccc !important;
+    color: #eee !important;
 }
 
 .el-dropdown-menu {

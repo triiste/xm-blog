@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.Result;
@@ -89,6 +91,33 @@ public class FileController {
     public void delFile(@PathVariable String flag) {
         FileUtil.del(filePath + flag);
         System.out.println("删除文件" + flag + "成功");
+    }
+
+
+    /**
+     * 富文本文件上传
+     */
+    @PostMapping("/editor/upload")
+    public Dict editorUpload(MultipartFile file) {
+        String flag;
+        synchronized (FileController.class) {
+            flag = System.currentTimeMillis() + "";
+            ThreadUtil.sleep(1L);
+        }
+        String fileName = file.getOriginalFilename();
+        try {
+            if (!FileUtil.isDirectory(filePath)) {
+                FileUtil.mkdir(filePath);
+            }
+            // 文件存储形式：时间戳-文件名
+            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);  // ***/manager/files/1697438073596-avatar.png
+            System.out.println(fileName + "--上传成功");
+
+        } catch (Exception e) {
+            System.err.println(fileName + "--文件上传失败");
+        }
+        String http = "http://" + ip + ":" + port + "/files/";
+        return Dict.create().set("errno", 0).set("data", CollUtil.newArrayList(Dict.create().set("url", http + flag + "-" + fileName)));
     }
 
 
