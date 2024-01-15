@@ -1,13 +1,17 @@
 package com.example.controller;
 
 import com.example.common.Result;
+import com.example.entity.Activity;
 import com.example.entity.Blog;
+import com.example.service.ActivityService;
 import com.example.service.BlogService;
 import com.github.pagehelper.PageInfo;
+import com.sun.scenario.effect.impl.es2.ES2ShaderSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 博客信息前端操作接口
@@ -18,6 +22,9 @@ public class BlogController {
 
     @Resource
     private BlogService blogService;
+
+    @Resource
+    private ActivityService activityService;
 
     /**
      * 新增
@@ -55,6 +62,12 @@ public class BlogController {
         return Result.success();
     }
 
+    @PutMapping("/updateReadCount/{blogId}")
+    public Result updateReadCount(@PathVariable Integer blogId){
+        blogService.updateReadCount(blogId);
+        return Result.success();
+    }
+
     /**
      * 根据ID查询
      */
@@ -85,4 +98,66 @@ public class BlogController {
         return Result.success(page);
     }
 
+    /**
+     * 博客榜单
+     */
+    @GetMapping("/selectTop")
+    public Result selectTop() {
+        List<Blog> list = blogService.selectTop();
+        return Result.success(list);
+    }
+
+    /**
+     * 博客推荐
+     */
+    @GetMapping("/selectRecommend/{blogId}")
+    public Result selectRecommend(@PathVariable Integer blogId) {
+        Set<Blog> blogSet = blogService.selectRecommend(blogId);
+        return Result.success(blogSet);
+    }
+
+
+    /**
+     * 分页查询当前用户的博客列表
+     */
+    @GetMapping("/selectUser")
+    public Result selectUser(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectUser(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    /**
+     * 分页查询当前用户点赞的博客列表
+     */
+    @GetMapping("/selectLike")
+    public Result selectLike(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectLike(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    /**
+     * 分页查询当前用户收藏的博客列表
+     */
+    @GetMapping("/selectCollect")
+    public Result selectCollect(Blog blog,
+                                @RequestParam(defaultValue = "1") Integer pageNum,
+                                @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectCollect(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+    /**
+     * 分页查询当前用户评论的博客列表
+     */
+    @GetMapping("/selectComment")
+    public Result selectComment(Blog blog,
+                                @RequestParam(defaultValue = "1") Integer pageNum,
+                                @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectComment(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
 }

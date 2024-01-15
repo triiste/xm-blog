@@ -23,6 +23,66 @@ public class Activity {
     private String content;
     private String cover;
 
+    private Integer likesCount;
+    private Integer collectCount;
+
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public void setIsEnd(Boolean isEnd) {
+        this.isEnd = isEnd;
+    }
+    public Boolean getIsEnd() {
+        return this.isEnd;
+    }
+    private Boolean isEnd;  //活动是否结束
+    private Boolean isSign; //是否报名
+    private Boolean isLike;
+    private Boolean isCollect;
+    public void setIsCollect(Boolean isCollect) {
+        this.isCollect = isCollect;
+    }
+    public Boolean getIsCollect() {
+        return this.isCollect;
+    }
+
+    public void setIsLike(Boolean isLike) {
+        this.isLike = isLike;
+    }
+    public Boolean getIsLike() {
+        return this.isLike;
+    }
+
+    public void setIsSign(Boolean isSign) {
+        this.isSign = isSign;
+    }
+    public Boolean getIsSign() {
+        return this.isSign;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -110,4 +170,6 @@ public class Activity {
     public void setCover(String cover) {
         this.cover = cover;
     }
+
+
 }

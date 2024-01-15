@@ -12,6 +12,33 @@ public class User extends  Account{
     private String email;
     private String info;
     private String birth;
+    private Integer blogCount;
+    private Integer likesCount;
+    private Integer collectCount;
+
+    public Integer getBlogCount() {
+        return blogCount;
+    }
+
+    public void setBlogCount(Integer blogCount) {
+        this.blogCount = blogCount;
+    }
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
 
     @Override
     public Integer getId() {

@@ -60,6 +60,7 @@ public class UserService {
     }
 
     public User selectById(Integer id) {
+
         return userMapper.selectById(id);
     }
 
@@ -81,7 +82,7 @@ public class UserService {
         if (!account.getPassword().equals(dbUser.getPassword())) { //对比密码是否正确
             throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR); //密码错误
         }
-        //  //在登录的过程中生成了token,再次登录就要验证token是否正确
+        //  //在登录的过程中生成了token,登录放行token
         String tokenData = dbUser.getId() + "-" + RoleEnum.USER.name();
         String token = TokenUtils.createToken(tokenData, dbUser.getPassword());
         dbUser.setToken(token);

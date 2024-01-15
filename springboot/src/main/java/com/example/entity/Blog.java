@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.util.Objects;
+
 /**
  * 博客信息
  */
@@ -24,6 +26,57 @@ public class Blog {
     /** 浏览量 */
     private Integer readCount;
     private Integer categoryId;
+
+    public Boolean getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(Boolean userLike) {
+        this.userLike = userLike;
+    }
+
+    private Boolean userLike;  //返回当前浏览的数据是否被当前登录的用户点赞
+    private Boolean userCollect;//返回当前浏览的数据是否被当前登录的用户收藏
+
+    public Boolean getUserCollect() {
+        return userCollect;
+    }
+
+    public void setUserCollect(Boolean userCollect) {
+        this.userCollect = userCollect;
+    }
+
+
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    private Integer likesCount;
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    private Integer collectCount;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    private User user;
 
     //这两个是不进入数据库 直接渲染计算
     private String categoryName;
@@ -125,5 +178,18 @@ public class Blog {
 
     public void setReadCount(Integer readCount) {
         this.readCount = readCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Blog)) return false;
+        Blog blog = (Blog) o;
+        return getId().equals(blog.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

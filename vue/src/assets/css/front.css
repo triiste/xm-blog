@@ -65,6 +65,7 @@ body {
 /* ElementUI 样式覆盖 */
 .el-menu.el-menu--horizontal {
     border: none !important;
+    height:59px;
 }
 .el-menu {
     background-color: #0066bc;
@@ -72,6 +73,7 @@ body {
 .el-menu-item.is-active {
     color: #fff !important;
     background-color: #1890ff !important;
+    height:59px !important;
 }
 .el-menu-item {
     color: #fff !important;
