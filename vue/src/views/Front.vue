@@ -36,6 +36,7 @@
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
+<!--                <div style="text-decoration: none" @click="edit"><a herf="/front/person">修改信息</a></div>-->
                 <div style="text-decoration: none" @click="logout">退出</div>
               </el-dropdown-item>
             </el-dropdown-menu>

@@ -25,4 +25,7 @@ public interface ActivitySignMapper {
 
     @Delete("delete from activity_sign where id = #{id}")
     void deleteById(Integer id);
+
+    @Delete("delete from activity_sign where activity_id = #{activityId} and user_id = #{userId}")
+    void userDelete(@Param("activityId") Integer activityId,  @Param("userId") Integer useId);
 }
