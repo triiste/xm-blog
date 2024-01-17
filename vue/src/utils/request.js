@@ -3,7 +3,7 @@ import router from "@/router";
 
 // 创建可一个新的axios对象
 const request = axios.create({
-    baseURL: process.env.VUE_APP_BASEURL,   // 后端的接口地址  ip:port
+    baseURL: 'http://47.109.28.131:9090',   // 后端的接口地址  ip:port
     timeout: 30000                          // 30s请求超时
 })
 
@@ -11,12 +11,14 @@ const request = axios.create({
 // 可以自请求发送前对请求做一些处理
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
+    console.log('请求URL:', config.url);
     config.headers['Content-Type'] = 'application/json;charset=utf-8';        // 设置请求头格式
     let user = JSON.parse(localStorage.getItem("xm-user") || '{}')  // 获取缓存的用户信息
     config.headers['token'] = user.token  // 设置请求头
 
     return config
 }, error => {
+    console.log('请求URL:', config.url);
     console.error('request error: ' + error) // for debug
     return Promise.reject(error)
 });

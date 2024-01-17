@@ -71,7 +71,7 @@
         <el-form-item label="头像">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="'http://47.109.28.131:9090' + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleAvatarSuccess"

@@ -5,7 +5,7 @@
         <div style="margin: 15px; text-align: center">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="'http://47.109.28.131:9090' + '/files/upload'"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >

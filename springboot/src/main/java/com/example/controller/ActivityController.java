@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * 活动前端操作接口
  **/
+
 @RestController
 @RequestMapping("/activity")
 public class ActivityController {

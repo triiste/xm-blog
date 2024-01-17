@@ -6,11 +6,15 @@ import com.example.common.Result;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
+import com.example.entity.Admin;
+import com.example.service.ActivityService;
 import com.example.service.AdminService;
 import com.example.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.sql.SQLOutput;
+import java.util.List;
 
 /**
  * 基础前端接口
@@ -26,6 +30,12 @@ public class WebController {
     //    测试后台能不能访问成功
     @GetMapping("/")
     public Result hello() {
+        Admin admin = new Admin();
+        List<Admin> as =adminService.selectAll(admin);
+        for(int i=0;i<as.size();i++){
+            System.out.println(as.get(i).getUsername());
+        }
+        System.out.println();
         return Result.success("访问成功");
     }
 

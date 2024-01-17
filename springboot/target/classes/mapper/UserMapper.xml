@@ -34,7 +34,7 @@
         </trim>
     </insert>
     <update id="updateById">
-        update User
+        update user
         <set>
             <if test="username != null">
                 username = #{username},

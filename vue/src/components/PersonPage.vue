@@ -8,10 +8,11 @@
         <div style="margin: 15px; text-align: center">
           <el-upload
               class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
+              :action="'http://47.109.28.131:9090/files/upload'"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
+            <!--              :action="$baseUrl + '/files/upload'"-->
             <img v-if="user.avatar" :src="user.avatar" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -105,6 +106,8 @@ export default {
       })
     },
     handleAvatarSuccess(response, file, fileList) {
+      console.log("看看这是什么")
+      console.log(response.data)
       // 把user的头像属性换成上传的图片的链接
       this.$set(this.user, 'avatar', response.data)
     },
