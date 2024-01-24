@@ -51,10 +51,12 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             account = adminService.login(account);
         } else if (RoleEnum.USER.name().equals(account.getRole())) {
+
             account = userService.login(account);  //完整的用户登录
         } else {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
         }
+
         return Result.success(account);
     }
 

@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item label="封面" prop="cover">
           <el-upload
-              :action="'http://47.109.28.131:9090' + '/files/upload'"
+              :action="'http://127.0.0.1:9090' + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleCoverSuccess"
@@ -37,9 +37,15 @@
             <el-option value="小白"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="内容" prop="content">
-          <div id="editor"></div>
+<!--        <el-form-item label="内容" prop="content">-->
+<!--          <div id="editor"></div>-->
+<!--        </el-form-item>-->
+<!--        style="height: 200px"-->
+        <el-form-item label="文章内容" prop="content" style="max-height: 300px; overflow-y: auto">
+          <mavon-editor ref="md" v-model="form.content" :ishljs="true" @imgAdd="imgAdd"/>
         </el-form-item>
+
+
       </el-form>
       <div style="text-align: center"><el-button type="primary" size="medium" style="width: 100px" @click="save">保 存</el-button></div>
     </div>
@@ -49,6 +55,7 @@
 <script>
 import E from "wangeditor";
 import hljs from "highlight.js";
+import axios from "axios";
 
 export default {
   name: "NewBlog",
@@ -72,20 +79,19 @@ export default {
       this.form = res.data || {}
       if (this.form.id) {
         this.tagsArr = JSON.parse(this.form.tags || '[]')
-        setTimeout(() => {
-          this.editor.txt.html(this.form.content)
-        }, 0)
+        // setTimeout(() => {
+        //   this.editor.txt.html(this.form.content)
+        // }, 0)
       }
     })
-
-    this.setRichText()
+    // this.setRichText()
   },
   methods: {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.tags = JSON.stringify(this.tagsArr)  // 把json数组转换成json字符串存到数据库
-          this.form.content = this.editor.txt.html()
+          // this.form.content = this.editor.txt.html()
           this.$request({
             url: this.form.id ? '/blog/update' : '/blog/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -107,7 +113,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://47.109.28.131:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -119,10 +125,33 @@ export default {
         this.editor.create()  // 创建
       })
     },
+    // 绑定@imgAdd event
+      imgAdd(pos, $file) {
+      let $vm = this.$refs.md
+      // 第一步.将图片上传到服务器.
+      const formData = new FormData();
+      formData.append('file', $file);
+      axios({
+        url: 'http://127.0.0.1:9090/files/editor/upload',
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      }).then((res) => {
+        // 在Markdown文本中插入图片
+        var url = res.data.data[0].url
+        // console.log(url)
+        // const markdownText = `http://127.0.0.1:9090/files/1705996022610-头像.jpg`;
+        $vm.$img2Url(pos, url);
+      })
+    },
   }
 }
 </script>
 
 <style scoped>
-
+/* 根据需要调整高度 */
+.el-form-item__content .mavon-editor {
+  max-height: 300px !important;
+  overflow-y: auto !important; /* 添加垂直滚动条 */
+}
 </style>

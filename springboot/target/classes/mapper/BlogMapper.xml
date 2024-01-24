@@ -76,11 +76,11 @@
             <if test="categoryName != null">and category.name like concat('%', #{categoryName}, '%')</if>
             <if test="userName != null">and user.name like concat('%', #{userName}, '%')</if>
             <if test="userId != null">and user.id = #{userId}</if>
-
+            <if test="tags != null">and blog.tags like concat('%',#{tags},'%')</if>
+            <if test="content != null">and blog.content like concat('%',#{content},'%')</if>
         </where>
         order by id desc
     </select>
-
     <select id="selectById" resultType="com.example.entity.Blog">
         select
             blog.*, category.name as categoryName, user.name as userName

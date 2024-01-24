@@ -4,21 +4,26 @@
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
-        <img src="@/assets/imgs/logo.png" alt="">
-        <div class="title">博客论坛平台</div>
+        <img src="@/assets/imgs/computer.png" alt="">
+        <div class="title">计算机交流论坛</div>
       </div>
       <div class="front-header-center">
         <div class="front-header-nav">
           <el-menu :default-active="$route.path" mode="horizontal" router>
 						<el-menu-item index="/front/home">首页</el-menu-item>
-            <el-menu-item index="/front/activity">活动中心</el-menu-item>
-						<el-menu-item index="/front/person">个人中心</el-menu-item>
+            <el-menu-item index="/front/activity" v-if="this.user.username !== '666'">活动中心</el-menu-item>
+						<el-menu-item index="/front/person" v-if="this.user.username !== '666'">个人中心</el-menu-item>
           </el-menu>
         </div>
       </div>
       <div>
-        <el-input style="width: 260px; margin-right: 10px" placeholder="请输入关键字搜索" v-model="title" clearable></el-input>
+        <el-input style="width: 200px; margin-right: 10px" placeholder="请输入博客标题搜索" v-model="title" clearable></el-input>
+        <el-input style="width: 200px; margin-right: 10px" placeholder="请输入博客标签搜索" v-model="tags" clearable></el-input>
+        <el-input style="width: 200px; margin-right: 10px" placeholder="请输入博客内容搜索" v-model="content" clearable></el-input>
+        <el-input style="width: 180px; margin-right: 10px" placeholder="请输入博主名称搜索" v-model="userName" clearable></el-input>
         <el-button type="success" @click="goSearch">搜 索</el-button>
+        <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+
       </div>
 
       <div class="front-header-right">
@@ -62,7 +67,10 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
-      title:this.$route.query.title
+      title:this.$route.query.title === 'undefined'?'':this.$route.query.title,
+      userName:this.$route.query.userName === 'undefined'?'':this.$route.query.userName,
+      tags:this.$route.query.tags === 'undefined' ? '': this.$route.query.tags,
+      content:this.$route.query.content === 'undefined' ? '': this.$route.query.content,
     }
   },
 
@@ -71,7 +79,7 @@ export default {
   },
   methods: {
     goSearch(){
-      location.href = '/front/search?title=' + this.title
+      location.href = '/front/search?title=' + this.title +'&&userName='+this.userName +'&&tags='+this.tags +'&&content='+this.content
     },
     loadNotice() {
       this.$request.get('/notice/selectAll').then(res => {
@@ -96,6 +104,13 @@ export default {
     logout() {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
+    },
+    reset() {
+      this.title = ''
+      this.tags = ''
+      this.content = ''
+      this.userName = ''
+      location.href = '/front/search?title=' + this.title +'&&userName='+this.userName +'&&tags='+this.tags +'&&content='+this.content
     },
   }
 

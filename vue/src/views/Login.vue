@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <div style="width: 380px; padding: 50px 30px; background-color: white; border-radius: 5px;">
-      <div style="text-align: center; font-size: 24px; margin-bottom: 30px; color: #333">博客平台</div>
+    <div style="width: 380px; padding: 30px 30px; background-color: rgba(255, 255, 255, 0.4);; border-radius: 5px;">
+      <div style="text-align: center; font-size: 24px; margin-bottom: 30px; color:#000b17; text-shadow: 0 0 10px rgba(53,217,81,0.33);">
+        计算机交流论坛
+      </div>
       <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item prop="username">
           <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入账号" v-model="form.username"></el-input>
@@ -27,6 +29,15 @@
         <div style="display: flex; align-items: center">
           <div style="flex: 1"></div>
           <div style="flex: 1; text-align: right">
+
+          </div>
+        </div>
+        <div style="display: flex; align-items: center">
+
+          <el-button style="margin-left: 5px; font-size: 14px; color: green; font-weight: bold; background-color: transparent; border: none;" @click="visit">访客直接进入</el-button>
+
+          <div style="flex: 1; text-align: right">
+
             还没有账号？请 <a href="/register">注册</a>
           </div>
         </div>
@@ -45,7 +56,8 @@ export default {
   },
   data() {
     return {
-      form: { role: 'ADMIN' },
+      form: { role: 'USER' },
+      form1: { role: 'USER' },
       rules: {
         username: [
           { required: true, message: '请输入账号', trigger: 'blur' },
@@ -75,6 +87,24 @@ export default {
       for (let i = 0; i < l; i++) {
         this.identifyCode += this.identifyCodes[Math.floor(Math.random() * (this.identifyCodes.length))]
       }
+    },
+    visit(){
+      this.form1.username = '666'
+      this.form1.password = '666'
+      this.$request.post('/login', this.form1).then(res => {
+        console.log("到这没1有")
+
+        if (res.code === '200') {
+          console.log("到这没2有")
+          localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
+          this.$message.success('访客模式')
+          setTimeout(() => {
+            // 跳转主页通过location,可能导致前台变黑，闪屏
+            location.href = '/front/home'
+          }, 500)
+          // 延时500ms
+        }
+      })
     },
     login() {
       if (!this.code) {
@@ -119,8 +149,9 @@ export default {
 .container {
   height: 100vh;
   overflow: hidden;
-  background-image: url("@/assets/imgs/bg.png");
-  background-size: 100%;
+  background-image: url("@/assets/imgs/deng.jpg");
+  /*background-size: 100%;*/
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;

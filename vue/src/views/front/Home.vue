@@ -17,12 +17,14 @@
 
       <div style="width: 260px">
         <div class="card" style="margin-bottom: 10px">
-          <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px">欢迎您！😊</div>
-          <a href="/front/person">
-            <div style="color: #666">写下博客记录美好的一天</div>
+          <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px ">欢迎您！😊</div>
+          <a href="/front/person" v-if="this.user.username !== '666'">
+            <div style="color: #666" v-if="this.user.username !== '666'">写下博客记录美好的一天</div>
+          </a>
+          <a  v-if="this.user.username === '666'">
+            <div style="color: #ce0e0e;font-weight: bold;font-size: 16px">访客模式仅可查看部分内容哦</div>
           </a>
         </div>
-
         <div class="card" style="margin-bottom: 10px">
           <div style="display: flex; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #ddd">
             <div style="font-size: 20px; flex: 1">文章榜单</div>
@@ -82,7 +84,9 @@ export default {
       topList: [],
       showList: [],
       lastIndex: 0,
-      topActivityList: []
+      topActivityList: [],
+      user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+
     }
   },
   mounted() {

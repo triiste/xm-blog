@@ -1,11 +1,11 @@
 <template>
-  <div class="main-content">
+  <div class="main-content main">
     <div style="display: flex; grid-gap: 10px">
-
+<!--      width: 0是为了限制宽度-->
       <div style="flex: 1;width: 0" >
-        <div class="card" style="padding: 30px; margin-bottom: 10px">
+      <div class="card" style="padding: 30px; margin-bottom: 10px; ">
           <div style="font-weight: bold; font-size: 24px; margin-bottom: 20px">{{ blog.title }}</div>
-          <div style="color: #666; margin-bottom: 20px">
+          <div style="color: #666; margin-bottom: 10px">
             <span style="margin-right: 20px"><i class="el-icon-user"></i> {{ blog.userName }}</span>
             <span style="margin-right: 20px"><i class="el-icon-date"></i> {{ blog.date }}</span>
             <span style="margin-right: 20px"><i class="el-icon-eye"></i> {{ blog.readCount }}</span>
@@ -13,21 +13,30 @@
               <el-tag v-for="item in tagsArr" :key="item" type="primary" style="margin-right:5px">{{ item }}</el-tag>
             </span>
           </div>
+          <mavon-editor
+              ref="mavonEditor"
+              class="md"
+              :value="blog.content"
+              :subfield="false"
+              :defaultOpen="'preview'"
+              :toolbarsFlag="false"
+              :editable="false"
+              :scrollStyle="true"
+              :ishljs="true"
 
-          <div class="w-e-text" style="width: 100%">
-            <div v-html="blog.content"></div>
-          </div>
+          />
 
         </div>
 
+        <button @click="scrollToTop" class="rocket-button"></button>
+
         <!--     点赞和收藏数据   -->
-        <div class="card" style="text-align: center; font-size: 20px; color: #666; margin-bottom: 10px">
+        <div class="card" style="text-align: center; font-size: 20px; color: #666; margin-bottom: 10px;">
           <span style="margin-right: 20px; cursor: pointer;" @click="setLikes" :class="{ 'active' : blog.userLike }"><i class="el-icon-like"></i> {{ blog.likesCount }}</span>
           <span style=" cursor: pointer"  @click="setCollect" :class="{ 'active' : blog.userCollect }"><i class="el-icon-star-off"></i> {{ blog.collectCount }}</span>
         </div>
-
       <!--评论-->
-        <comment :fid="blogId" module="博客"></comment>
+        <comment :fid="blogId" module="博客" ></comment>
       </div>
 
       <div style="width: 260px">
@@ -94,6 +103,7 @@
 <script>
 import Footer from "@/components/Footer";
 import Comment from "@/components/Comment";
+
 export default {
   name: "BlogDetail",
   components: {
@@ -117,10 +127,19 @@ export default {
     // this.loadComment()
   },
   methods: {
+    scrollToTop() {
+      // 使用JavaScript实现平滑滚动回到页面顶部
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    },
+
+
     setLikes() {
       this.$request.post('/likes/set', {  fid: this.blogId, module: '博客' }).then(res => {
         if (res.code === '200') {
-          this.$message.success('操作成功')
+          // this.$message.success('操作成功')
 
           this.load()  // 重新加载数据
         }
@@ -129,7 +148,7 @@ export default {
     setCollect() {
       this.$request.post('/collect/set', {  fid: this.blogId, module: '博客' }).then(res => {
         if (res.code === '200') {
-          this.$message.success('操作成功')
+          // this.$message.success('操作成功')
 
           this.load()  // 重新加载数据
         }
@@ -191,11 +210,72 @@ p {
 .comment-active {
   color: #2a60c9;
 }
-pre {
+p {
   white-space: pre-wrap; /*css-3*/
   white-space: -moz-pre-wrap; /*Mozilla,since1999*/
   white-space: pre-wrap; /*Opera4-6*/
   white-space: -o-pre-wrap; /*Opera7*/
   word-wrap: break-word; /*InternetExplorer5.5+*/
 }
+.rocket-button {
+  position: fixed;
+  bottom: 140px;
+  right: 250px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 123, 255, 0); /* 设置按钮背景颜色 */
+  border: none; /* 去掉按钮边框 */
+  border-radius: 50%; /* 设置按钮为圆形 */
+  cursor: pointer;
+  background-image: url("@/assets/imgs/rocket.png");; /* 设置火箭图标路径 */
+  background-size: cover; /* 图标大小适应按钮 */
+  background-repeat: no-repeat; /* 防止图标重复显示 */
+  content: ''; /* 伪元素，防止按钮内容被覆盖 */
+}
+
+pre {
+  background-color: rgb(40,44,52) !important; /* 深灰色背景 */
+  color: #cccccc; /* 白色文本 */
+  padding: 10px; /* 内边距 */
+  border-radius: 5px; /* 圆角边框，可选 */
+  overflow: auto; /* 添加滚动条 */
+}
+
+/* 设置代码块中的行号样式 */
+pre code {
+  line-height: 1.5; /* 行高，根据需要调整 */
+}
+.hljs {
+  background-color: rgb(40,44,52) !important; /* 深灰色背景 */
+  color: #cccccc !important; /* 白色文本 */
+  padding: 10px; /* 内边距 */
+  border-radius: 5px; /* 圆角边框，可选 */
+  overflow: auto; /* 添加滚动条 */
+  font-size: 18px !important;
+}
+.hljs-title{
+  color: #00ffff !important;
+}
+.hljs-number{
+  color: #13ce66 !important;
+}
+/* 设置 hljs 类代码块中的行号样式 */
+.hljs code {
+  line-height: 1.5; /* 行高，根据需要调整 */
+}
+
+.hljs-string{
+  color: #9cd580 !important;
+}
+.hljs-attribute{
+  color: #00ffff !important;
+}
+.hljs-meta{
+  color: #9cd580 !important;
+}
+.hljs-literal{
+  color: #9B5146 !important;
+}
+
+
 </style>

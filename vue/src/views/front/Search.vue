@@ -11,7 +11,10 @@ export default {
   components: {BlogList},
   data(){
     return{
-      title:this.$route.query.title
+      title:this.$route.query.title === 'undefined'?'':this.$route.query.title,
+      userName:this.$route.query.userName === 'undefined'?'':this.$route.query.userName,
+      tags:this.$route.query.tags === 'undefined' ? '': this.$route.query.tags,
+      content:this.$route.query.content === 'undefined' ? '': this.$route.query.content,
     }
   }
 }

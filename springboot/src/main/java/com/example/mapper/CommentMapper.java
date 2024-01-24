@@ -44,4 +44,7 @@ public interface CommentMapper {
 
     @Select("select count(*) from comment where fid = #{fid} and module = #{module}")
     Integer selectCount(@Param("fid") Integer fid, @Param("module") String module);
+
+    @Select("select * from comment where pid = #{fid} ")
+    List<Comment> selectFatherNode(Integer id);
 }

@@ -4,7 +4,7 @@
       <div class="blog-box" v-for="item in tableData" :key="item.id" v-if="total > 0">
         <div style="flex: 1; width: 0">
           <a :href="'/front/blogDetail?blogId=' + item.id" target="_blank"><div class="blog-title">{{ item.title }}</div></a>
-          <div class="line1" style="color: #666; margin-bottom: 10px; font-size: 13px">{{ item.descr }}</div>
+          <div class="line2" style="color: #666; margin-bottom: 10px; font-size: 13px" v-html="item.descr" ></div>
           <div style="display: flex; align-items: center">
             <div style="flex: 1; font-size: 13px">
               <span style="color: #666; margin-right: 20px"><i class="el-icon-user"></i> {{ item.userName }}</span>
@@ -96,15 +96,28 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           categoryName: this.categoryName === '全部博客' ? null : this.categoryName,
-          title: this.$route.query.title
+          title:this.$route.query.title === 'undefined'?'':this.$route.query.title,
+          userName:this.$route.query.userName === 'undefined'?'':this.$route.query.userName,
+          tags:this.$route.query.tags === 'undefined' ? '': this.$route.query.tags,
+          content:this.$route.query.content === 'undefined' ? '': this.$route.query.content,
         }
       }).then(res => {
+        // this.$message.success("看看这个"+this.$route.query.title)
         this.tableData = res.data?.list
         this.total = res.data?.total
+        if(this.tableData?.length && Boolean(this.$route.query.content)){
+          for(var i=0;i<this.tableData.length;i++){
+            this.tableData[i].descr = this.tableData[i].descr.replace(
+                new RegExp(this.$route.query.content, 'g'),
+                '<span style="color: red;font-weight: bold;font-size: 14px">$&</span>'
+            );
+          }
+        }
       })
     },
     handleCurrentChange(pageNum) {
-      this.load(pageNum)
+      // this.$message.success('当前页码为'+pageNum)
+      this.loadBlogs(pageNum)
     },
   }
 }

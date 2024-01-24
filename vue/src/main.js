@@ -6,14 +6,17 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/css/global.css'
 import '@/assets/css/theme/index.css'
 import '@/assets/css/iconfont/iconfont.css'
-
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import request from "@/utils/request";
 import 'highlight.js/styles/monokai-sublime.css'
+
+
 Vue.config.productionTip = false
 
 Vue.prototype.$request = request
 Vue.prototype.$baseUrl = process.env.VUE_APP_BASEURL
-
+Vue.use(mavonEditor)
 Vue.use(ElementUI, {size: "small"})
 
 new Vue({

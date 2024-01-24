@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="封面" prop="cover">
           <el-upload
-              :action="'http://47.109.28.131:9090' + '/files/upload'"
+              :action="'http://127.0.0.1:9090' + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleCoverSuccess"
@@ -102,9 +102,17 @@
             <el-option value="小白"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="内容" prop="content">
-          <div id="editor"></div>
+<!--        <el-form-item label="内容" prop="content">-->
+<!--          <div id="editor"></div>-->
+<!--        </el-form-item>-->
+
+
+
+        <el-form-item label="文章内容" prop="content">
+          <mavon-editor ref="md" v-model="form.content" :ishljs="true" @imgAdd="imgAdd"/>
         </el-form-item>
+
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="fromVisible = false">取 消</el-button>
@@ -113,10 +121,17 @@
     </el-dialog>
 
 
-    <el-dialog title="文章内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
-      <div class="w-e-text">
-        <div v-html="content"></div>
-      </div>
+    <el-dialog title="文章内容" :visible.sync="fromVisible1" width="60%" :close-on-click-modal="false" destroy-on-close>
+            <mavon-editor
+                class="md"
+                :value="content"
+                :subfield="false"
+                :defaultOpen="'preview'"
+                :toolbarsFlag="false"
+                :editable="false"
+                :scrollStyle="true"
+                :ishljs="true"
+            />
       <div slot="footer" class="dialog-footer">
         <el-button @click="fromVisible1 = false">关闭</el-button>
       </div>
@@ -131,6 +146,7 @@
 
 import E from "wangeditor"
 import hljs from 'highlight.js'
+import axios from "axios";
 
 export default {
   name: "Notice",
@@ -174,10 +190,10 @@ export default {
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.tagsArr = JSON.parse(this.form.tags || '[]')
       this.fromVisible = true   // 打开弹窗
-      this.setRichText()
-      setTimeout(() => {
-        this.editor.txt.html(this.form.content)
-      },0)
+      // this.setRichText()
+      // setTimeout(() => {
+      //   this.editor.txt.html(this.form.content)
+      // },0)
 
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
@@ -185,7 +201,7 @@ export default {
         if (valid) {
 
           this.form.tags = JSON.stringify(this.tagsArr) //把json数组转换成json字符串 存到数据库
-          this.form.content = this.editor.txt.html()
+          // this.form.content = this.editor.txt.html()
           this.$request({
             url: this.form.id ? '/blog/update' : '/blog/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -273,7 +289,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://47.109.28.131:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -284,7 +300,22 @@ export default {
         this.editor.create()  // 创建
       })
     },
-
+    // 绑定@imgAdd event
+    imgAdd(pos, $file) {
+      let $vm = this.$refs.md
+      // 第一步.将图片上传到服务器.
+      const formData = new FormData();
+      formData.append('file', $file);
+      axios({
+        url: 'http://127.0.0.1:9090' + '/files/editor/upload',
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      }).then((res) => {
+        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+        $vm.$img2Url(pos, res.data);
+      })
+    },
   }
 }
 </script>

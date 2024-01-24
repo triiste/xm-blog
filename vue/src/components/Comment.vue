@@ -116,6 +116,14 @@ export default {
       })
     },
     addComment() {
+      if(this.commentContent ===''){
+        this.$message.error('评论为空')
+        return
+      }
+      if(this.user.username === '666'){
+        this.$message.error('访客不能评论，请先登录哦')
+        return
+      }
       this.$request.post('/comment/add', { content: this.commentContent, fid: this.fid, module: this.module }).then(res => {
         if (res.code === '200') {
           // this.$message.success('操作成功')

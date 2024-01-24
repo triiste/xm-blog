@@ -21,6 +21,7 @@ a {
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
 }
+/*显示一行和显示2行的*/
 .line1 {
     white-space: nowrap;
     overflow: hidden;

@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,15 @@ public class CommentService {
      * 删除
      */
     public void deleteById(Integer id) {
+        //删除这里要注意 是批量删除以该id为父结点的所有结点
+        //先查询出以该id为父结点的所有结点
+        List<Comment> commentList =  commentMapper.selectFatherNode(id);
+
+        if(!commentList.isEmpty() ){
+            for(Comment x:commentList){
+                commentMapper.deleteById(x.getId());
+            }
+        }
         commentMapper.deleteById(id);
     }
 

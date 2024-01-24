@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -118,15 +119,46 @@ public class BlogService {
         return blogMapper.selectAll(blog);
     }
 
+    //查找目标
+    public static String findWordsAround(String input, String targetWord) {
+        String[] words = input.split(""); // 拆分字符串为单个字符数组
+
+        // 寻找目标词语的索引
+        int targetIndex = input.indexOf(targetWord);
+        if (targetIndex == -1) {
+            return "未找到目标词语";
+        }
+        int startIndex = targetIndex -50;
+        if(startIndex < 0) startIndex =0;
+        int endIndex = targetIndex+200;
+        // 构建结果字符串
+        StringBuilder result = new StringBuilder();
+        for (int i = startIndex; i < endIndex && i<words.length; i++) {
+            result.append(words[i]);
+        }
+
+        return result.toString();
+    }
+
     /**
      * 分页查询
      */
     public PageInfo<Blog> selectPage(Blog blog, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
+//        System.out.println(blog.getTags());
         List<Blog> list = blogMapper.selectAll(blog);
         for(Blog b:list){
+            //设置喜欢人数
             int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
             b.setLikesCount(likesCount);
+        }
+        if(!list.isEmpty() && blog.getContent() != null && !blog.getContent().isEmpty()   ){
+//            System.out.println("进来了？");
+//           说明根据内容了查找到了相应的博客
+            for(Blog b:list){
+                String result = findWordsAround(b.getContent(), blog.getContent());
+                b.setDescr(result);
+            }
         }
         return PageInfo.of(list);
     }
