@@ -34,6 +34,7 @@
           </div>
           <div>
               <div v-for="item in showList" :key="item.id" class="line1" style="margin: 15px 0">
+<!--                展示博客榜单-->
                 <a :href="'/front/blogDetail?blogId=' + item.id" target="_blank">
                 <span style="width: 18px; display: inline-block; text-align: right; margin-right: 10px">
                   <span v-if="item.index === 1" style="color: orangered">{{ item.index }}</span>
@@ -100,12 +101,14 @@ export default {
   methods: {
     loadTopActivity() {
       this.$request.get('/activity/selectTop').then(res => {
+        console.log(res.data)
         this.topActivityList = res.data || []
       })
     },
     refreshTop() {
       this.$request.get('/blog/selectTop').then(res => {
         this.topList = res.data || []
+        console.log(this.topList)
         let i = 1
         this.topList.forEach(item => item.index = i++)
 

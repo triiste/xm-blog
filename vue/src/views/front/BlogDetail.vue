@@ -12,6 +12,9 @@
             <span>
               <el-tag v-for="item in tagsArr" :key="item" type="primary" style="margin-right:5px">{{ item }}</el-tag>
             </span>
+
+            <span v-if="blog.userId == this.user.id" style="margin-left: 40px; color: #2a60c9; cursor: pointer" @click="editBlog(blog.id)"><i class="el-icon-edit"></i>编辑</span>
+            <span v-if="blog.userId == this.user.id" style="margin-left: 10px; color: red; cursor: pointer" @click="del(blog.id)"><i class="el-icon-delete"></i>删除</span>
           </div>
           <mavon-editor
               ref="mavonEditor"
@@ -116,6 +119,7 @@ export default {
       blog: {},
       tagsArr: [],
       recommendList: [],
+      user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
 
     }
   },
@@ -139,7 +143,6 @@ export default {
     setLikes() {
       this.$request.post('/likes/set', {  fid: this.blogId, module: '博客' }).then(res => {
         if (res.code === '200') {
-          // this.$message.success('操作成功')
 
           this.load()  // 重新加载数据
         }
@@ -154,9 +157,27 @@ export default {
         }
       })
     },
+
+    editBlog(blogId) {
+      window.open('/front/newBlog?blogId=' + blogId)
+    },
+    del(id) {   // 单个删除
+      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+        this.$request.delete('/blog/delete/' + id).then(res => {
+          if (res.code === '200') {   // 表示操作成功
+            this.$message.success('操作成功')
+            window.open('/front/home')
+          } else {
+            this.$message.error(res.msg)  // 弹出错误的信息
+          }
+        })
+      }).catch(() => {
+      })
+    },
     load() {
       this.$request.get('/blog/selectById/' + this.blogId).then(res => {
         this.blog = res.data || {}
+        // console.log(this.blog)
         this.tagsArr = JSON.parse(this.blog.tags || '[]')
       })
 

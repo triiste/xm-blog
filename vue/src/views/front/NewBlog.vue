@@ -48,7 +48,10 @@
 
       </el-form>
       <div style="text-align: center"><el-button type="primary" size="medium" style="width: 100px" @click="save">保 存</el-button></div>
+
     </div>
+
+    <Footer />
   </div>
 </template>
 
@@ -56,8 +59,12 @@
 import E from "wangeditor";
 import hljs from "highlight.js";
 import axios from "axios";
+import Footer from "@/components/Footer";
 
 export default {
+  components: {
+    Footer
+  },
   name: "NewBlog",
   data() {
     return {
@@ -98,7 +105,14 @@ export default {
             data: this.form
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
+              if(!this.form.id){
+                this.$message.success('发布成功')
+              }else{
+                this.$message.success('保存成功')
+                setTimeout(() => {
+                  location.href = "/front/blogDetail?blogId="+this.form.id
+                }, 500)
+              }
             } else {
               this.$message.error(res.msg)  // 弹出错误的信息
             }

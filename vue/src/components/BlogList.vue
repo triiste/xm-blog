@@ -4,7 +4,7 @@
       <div class="blog-box" v-for="item in tableData" :key="item.id" v-if="total > 0">
         <div style="flex: 1; width: 0">
           <a :href="'/front/blogDetail?blogId=' + item.id" target="_blank"><div class="blog-title">{{ item.title }}</div></a>
-          <div class="line2" style="color: #666; margin-bottom: 10px; font-size: 13px" v-html="item.descr" ></div>
+          <div class="line2" style="color: #666; margin-bottom: 10px; font-size: 13px" v-if="item.descr" v-html="item.descr"></div>
           <div style="display: flex; align-items: center">
             <div style="flex: 1; font-size: 13px">
               <span style="color: #666; margin-right: 20px"><i class="el-icon-user"></i> {{ item.userName }}</span>
@@ -105,6 +105,7 @@ export default {
         // this.$message.success("看看这个"+this.$route.query.title)
         this.tableData = res.data?.list
         this.total = res.data?.total
+        // this.$message.success("看看这个"+this.$route.query.content)
         if(this.tableData?.length && Boolean(this.$route.query.content)){
           for(var i=0;i<this.tableData.length;i++){
             this.tableData[i].descr = this.tableData[i].descr.replace(
