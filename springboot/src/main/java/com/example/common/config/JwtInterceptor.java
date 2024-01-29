@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * jwt拦截器
+ * jwt拦截器    //拦截器 先拦截住 挨个验证防止未登录的用户恶意刷接口
  */
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
@@ -33,7 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     private AdminService adminService;
     @Resource
     private UserService userService;
-    //拦截器 先拦截住 挨个验证
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 1. 从http请求的header中获取token
@@ -63,6 +63,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
         }
+
         if (ObjectUtil.isNull(account)) {
             throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
         }

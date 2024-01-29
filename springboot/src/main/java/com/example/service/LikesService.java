@@ -4,6 +4,8 @@ import com.example.entity.Account;
 import com.example.entity.Likes;
 import com.example.mapper.LikesMapper;
 import com.example.utils.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,19 +16,26 @@ public class LikesService {
     @Resource
     LikesMapper likesMapper;
 
+    @Autowired
+    private SetOperations setOperations;
+
+    public static final String LIKE_KEY="LIKE_KEY";
+
+
     public void set(Likes likes) {
+
+
         //当前用户的ID
         Account currentUser = TokenUtils.getCurrentUser();
         likes.setUserId(currentUser.getId());
-        //先看点过赞没有 没有就点赞 有就取消
-        Likes dblLikes = likesMapper.selectUserLikes(likes);//查询用户有没有对当前数据进行点赞+
-        //先取出来没点过赞就点一下
-        //点过赞就删除一下 操作两次数据库
-        if (dblLikes == null) {
-            likesMapper.insert(likes);
-        } else {
-            likesMapper.deleteById(dblLikes.getId());
+
+        String value = likes.getModule() + "::" + likes.getFid() +"::"+currentUser.getId();
+        if(setOperations.isMember(LIKE_KEY,value)){  //点过赞就取消
+            setOperations.remove(LIKE_KEY,value);
+        }else{  //没点过就添加
+            setOperations.add(LIKE_KEY,value);
         }
+
     }
 
     /**

@@ -16,7 +16,7 @@ public class WebConfig implements  WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        放行请求
-        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**")
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**")  //匹配所有路径 下面是放行的路径
                 .excludePathPatterns("/")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/register")

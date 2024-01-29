@@ -10,6 +10,8 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import request from "@/utils/request";
 import 'highlight.js/styles/monokai-sublime.css'
+import '@/assets/fonts/font-awesome.css'
+
 
 
 Vue.config.productionTip = false

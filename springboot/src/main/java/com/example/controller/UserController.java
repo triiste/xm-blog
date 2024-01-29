@@ -17,6 +17,9 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
+
+
     @PostMapping("/add")
     public Result add(@RequestBody User user){
         userService.add(user);
@@ -71,6 +74,16 @@ public class UserController {
     }
 
     /**
+     * 查询所有用户在线状态
+     */
+    @GetMapping("/selectAllOnline")
+    public Result selectAllOnline(User user ) {
+        List<User> list = userService.selectAllOnline(user);
+        return Result.success(list);
+    }
+
+
+    /**
      * 分页查询
      */
     @GetMapping("/selectPage")
@@ -80,6 +93,8 @@ public class UserController {
         PageInfo<User> page = userService.selectPage(user, pageNum, pageSize);
         return Result.success(page);
     }
+
+
 
 
 }

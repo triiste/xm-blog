@@ -13,6 +13,7 @@
 						<el-menu-item index="/front/home">首页</el-menu-item>
             <el-menu-item index="/front/activity" v-if="this.user.username !== '666'">活动中心</el-menu-item>
 						<el-menu-item index="/front/person" v-if="this.user.username !== '666'">个人中心</el-menu-item>
+						<el-menu-item index="/front/imSingle">私信聊天</el-menu-item>
           </el-menu>
         </div>
       </div>

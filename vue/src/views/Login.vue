@@ -122,8 +122,10 @@ export default {
           // 验证通过
           this.$request.post('/login', this.form).then(res => {
             if (res.code === '200') {
-              localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
+              localStorage.setItem("xm-user", JSON.stringify(res.data))  // 登录之后在本地存储用户数据
               this.$message.success('登录成功')
+
+
               setTimeout(() => {
                 // 跳转主页通过location,可能导致前台变黑，闪屏
                 if (res.data.role === 'ADMIN') {

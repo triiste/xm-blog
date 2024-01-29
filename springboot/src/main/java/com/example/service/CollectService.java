@@ -4,6 +4,8 @@ import com.example.entity.Account;
 import com.example.entity.Collect;
 import com.example.mapper.CollectMapper;
 import com.example.utils.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,16 +16,20 @@ public class CollectService {
     @Resource
     CollectMapper collectMapper;
 
+    @Autowired
+    private SetOperations setOperations;
+
+    public static final String COLLECT_KEY="COLLECT_KEY";
+
     public void set(Collect collect) {
         //当前用户的ID
         Account currentUser = TokenUtils.getCurrentUser();
         collect.setUserId(currentUser.getId());
-        //先看收藏过没有 没有就收藏 有就取消
-        Collect dblCollect = collectMapper.selectUserCollect(collect);//查询用户有没有对当前数据进行点赞+
-        if (dblCollect == null) {
-            collectMapper.insert(collect);
-        } else {
-            collectMapper.deleteById(dblCollect.getId());
+        String value = collect.getModule() + "::" + collect.getFid() +"::"+currentUser.getId();
+        if(setOperations.isMember(COLLECT_KEY,value)){
+            setOperations.remove(COLLECT_KEY,value);
+        }else{
+            setOperations.add(COLLECT_KEY,value);
         }
     }
 

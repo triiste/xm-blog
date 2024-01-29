@@ -13,6 +13,7 @@
     "highlight.js": "^11.9.0",
     "mavon-editor": "^2.10.4",
     "vue": "^2.6.14",
+    "vue-native-websocket": "^2.0.15",
     "vue-router": "^3.5.1",
     "wangeditor": "^4.7.15"
   },

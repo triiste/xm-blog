@@ -12,7 +12,9 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
 # 配置mybatis实体和xml映射
 mybatis:
   mapper-locations: classpath:mapper/*.xml
