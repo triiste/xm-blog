@@ -57,9 +57,9 @@
         </div>
 
         <div style="line-height: 30px; color: #666; padding: 0 10px">
-          <div>举报邮箱： feedback@xitu.io</div>
-          <div> 座机电话： 010-83434395</div>
-          <div> 京ICP备888888©2024 西大迟意</div>
+          <div>举报邮箱： xxxxxxxx@qq.com</div>
+          <div> 座机电话： xxx-xxxxxxxx</div>
+          <div> 网站备案模块©2024 西大迟意</div>
         </div>
 
       </div>

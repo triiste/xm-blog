@@ -7,14 +7,15 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root   #你本地的数据库用户名
     password: 123456 #你本地的数据库密码
-    url: jdbc:mysql://127.0.0.1:3306/xm_blog?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://47.109.28.131:3308/xm_blog?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
   redis:
-    host: 127.0.0.1
+    host: 47.109.28.131
     port: 6379
+    password: 926424qq!!!
 # 配置mybatis实体和xml映射
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -30,4 +31,4 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-ip: 127.0.0.1
+ip: 47.109.28.131

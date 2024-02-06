@@ -17,18 +17,17 @@
           </el-menu>
         </div>
       </div>
-      <div>
-        <el-input style="width: 260px; margin-right: 10px" placeholder="请输入博客内容" v-model="content" clearable></el-input>
-        <el-input style="width: 140px; margin-right: 10px" placeholder="请输入博客标题" v-model="title" clearable></el-input>
-        <el-input style="width: 140px; margin-right: 10px" placeholder="请输入博客标签" v-model="tags" clearable></el-input>
-        <el-input style="width: 140px; margin-right: 10px" placeholder="请输入博主名称" v-model="userName" clearable></el-input>
+      <div >
+        <el-input style="width: 150px; margin-right: 10px" placeholder="请输入博客内容" v-model="content" clearable></el-input>
+        <el-input style="width: 150px; margin-right: 10px" placeholder="请输入博客标题" v-model="title" clearable></el-input>
+<!--        <el-input style="width: 150px; margin-right: 10px" placeholder="请输入博客标签" v-model="tags" clearable></el-input>-->
+        <el-input style="width: 150px; margin-right: 10px" placeholder="请输入博主名称" v-model="userName" clearable></el-input>
         <el-button type="success" @click="goSearch">搜 索</el-button>
         <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
-
       </div>
 
       <div class="front-header-right">
-        <div v-if="!user.username">
+        <div v-if="!user.username" >
           <el-button @click="$router.push('/login')">登录</el-button>
           <el-button @click="$router.push('/register')">注册</el-button>
         </div>

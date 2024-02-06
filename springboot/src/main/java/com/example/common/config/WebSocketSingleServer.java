@@ -27,6 +27,9 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * websocket服务 - 单聊
@@ -34,6 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint(value = "/imserverSingle/{id}")
 @Component
 public class WebSocketSingleServer implements InitializingBean {
+
 
 
 
@@ -63,27 +67,41 @@ public class WebSocketSingleServer implements InitializingBean {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session,@PathParam("id") String id) {
-        sessionMap.put(session.getId(), session);
-        userMap.put(session.getId(),id);
-        //使用Redis先缓存到数据库
-//        System.out.println(id);
-        long timestamp = System.currentTimeMillis();
-        stringRedisTemplate.opsForValue().set(id,"存在"+timestamp);
-        log.info("[onOpen] 新建连接，session={}, 当前在线人数为：{}", session.getId(), userMap.size());
-        this.sendAllMessage(JSONUtil.toJsonStr(Dict.create().set("users", userMap.values())));//广播所有加入的用户
+    public void onOpen(Session session, @PathParam("id") String id) {
+        try {
+            if (id != null && !id.isEmpty()) {
+                sessionMap.put(session.getId(), session);
+                userMap.put(session.getId(),id);
+                long timestamp = System.currentTimeMillis();
+                String value = "存在" + timestamp;
+                stringRedisTemplate.opsForValue().set(id, value, 1, TimeUnit.HOURS);
+                log.info("[onOpen] 新建连接，session={}, 当前在线人数为：{}", session.getId(), userMap.size());
+                this.sendAllMessage(JSONUtil.toJsonStr(Dict.create().set("users", userMap.values())));
+            } else {
+                log.warn("[onOpen] 连接建立失败，ID为空");
+            }
+        } catch (Exception e) {
+            log.error("[onOpen] 连接建立时发生异常", e);
+        }
     }
+
 
     /**
      * 连接关闭调用的方法
      */
     @OnClose
     public void onClose(Session session) {
-        //离线先删除redis数据库中元素
-        stringRedisTemplate.delete(userMap.get(session.getId()));
-        //因为我关闭了也就是下线了不能送message  退出有一点点延迟
-        userMap.remove(session.getId());//删除当前用户
-        sessionMap.remove(session.getId());
+        try {
+            //离线先删除 Redis 数据库中元素
+            String userId = userMap.get(session.getId());
+            if (userId != null) {
+                stringRedisTemplate.delete(userId);
+                userMap.remove(session.getId());
+                sessionMap.remove(session.getId());
+            }
+        } catch (Exception e) {
+            log.error("Exception during onClose:", e);
+        }
         log.info("[onClose] 有一连接关闭，session={}, 当前在线人数为：{}", session.getId(), userMap.size());
     }
 
@@ -97,6 +115,7 @@ public class WebSocketSingleServer implements InitializingBean {
      */
     @OnMessage
     public void onMessage(String message, Session fromSession) {
+        //先看收到的是什么消息
         log.info("服务端收到消息:{}", message);
         ImSingle imSingle = JSONUtil.toBean(message, ImSingle.class);
         imSingle.setTime(DateUtil.now());
@@ -106,6 +125,28 @@ public class WebSocketSingleServer implements InitializingBean {
         this.sendAllMessage(jsonStr);
         log.info("[onMessage] 发送消息：{}", jsonStr);
     }
+
+
+//
+//    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+//
+//    public WebSocketSingleServer () {
+//        // 每隔一段时间检查一次连接状态
+//        executorService.scheduleAtFixedRate(this::checkConnectionStatus, 0, 1, TimeUnit.MINUTES);
+//    }
+//    private void checkConnectionStatus() {
+//        System.out.println("心脏跳动"+DateUtil.now());
+//        // 遍历所有连接，检查连接状态
+//        for (Session session : sessionMap.values()) {
+//            if (!session.isOpen()) {
+//                // 连接已关闭，执行清理操作
+//                log.info("连接已关闭，执行清理操作");
+//                onClose(session);
+//            }
+//        }
+//    }
+
+
 
 
     @OnError
@@ -134,14 +175,22 @@ public class WebSocketSingleServer implements InitializingBean {
      */
     private void sendAllMessage(String message) {
         try {
-            for (Session session : sessionMap.values()) {
-                log.info("服务端给客户端[{}]发送消息{}", session.getId(), message);
-                session.getBasicRemote().sendText(message);
+            for (Session session : new ArrayList<>(sessionMap.values())) {
+                try {
+                    if (session.isOpen()) {
+                        log.info("服务端给客户端[{}]发送消息{}", session.getId(), message);
+                        session.getBasicRemote().sendText(message);
+                    }
+                } catch (IOException e) {
+                    log.error("向客户端[{}]发送消息失败", session.getId(), e);
+                }
             }
-        } catch (Exception e) {
-            log.error("服务端发送消息给客户端失败", e);
+        } catch (ConcurrentModificationException e) {
+            log.error("遍历时发生 ConcurrentModificationException", e);
         }
     }
+
+
 
     @Override
     public void afterPropertiesSet() {

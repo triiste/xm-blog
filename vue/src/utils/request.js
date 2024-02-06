@@ -3,7 +3,7 @@ import router from "@/router";
 
 // 创建可一个新的axios对象
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:9090',   // 后端的接口地址  ip:port
+    baseURL: 'http://47.109.28.131:9090',   // 后端的接口地址  ip:port
     timeout: 30000                          // 30s请求超时
 })
 

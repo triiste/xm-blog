@@ -8,7 +8,7 @@
         <div style="margin: 15px; text-align: center">
           <el-upload
               class="avatar-uploader"
-              :action="'http://127.0.0.1:9090/files/upload'"
+              :action="'http://47.109.28.131:9090/files/upload'"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
@@ -21,7 +21,7 @@
           <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="user.name" placeholder="姓名"></el-input>
+          <el-input v-model="user.name" placeholder="姓名" maxlength="6"></el-input>
         </el-form-item>
         <el-form-item label="电话" prop="phone">
           <el-input v-model="user.phone" placeholder="电话"></el-input>

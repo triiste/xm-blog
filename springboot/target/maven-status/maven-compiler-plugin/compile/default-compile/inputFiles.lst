@@ -2,6 +2,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\enums\ResultCodeEnum.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Notice.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\ActivityService.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\WebSocketConfig.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\ActivitySignService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\UserMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Blog.java
@@ -10,6 +11,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\AdminMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\CollectController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\WebController.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\WebSocketSingleServer.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\JwtInterceptor.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\SpringbootApplication.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\CorsConfig.java
@@ -19,6 +21,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\ActivityController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\CommentController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\LikesService.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\ImSingleController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Account.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\WebConfig.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\User.java
@@ -36,7 +39,10 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\ActivitySignController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\UserService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\AdminController.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\ImSingle.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\config\RedisConfig.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\Result.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\ImSingleMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\FileController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Likes.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\ActivitySign.java
@@ -51,5 +57,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\ActivitySignMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\CategoryService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\CommentService.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\utils\SpringUtils.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\CategoryMapper.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\ImSingleService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\NoticeMapper.java

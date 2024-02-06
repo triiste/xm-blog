@@ -77,10 +77,15 @@ public class UserController {
      * 查询所有用户在线状态
      */
     @GetMapping("/selectAllOnline")
-    public Result selectAllOnline(User user ) {
-        List<User> list = userService.selectAllOnline(user);
+    public Result selectAllOnline(@RequestParam String userId ) {
+        List<User> list = userService.selectAllOnline(userId);
         return Result.success(list);
     }
+
+
+
+
+
 
 
     /**

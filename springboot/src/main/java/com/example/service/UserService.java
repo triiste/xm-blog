@@ -5,10 +5,7 @@ import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.*;
 import com.example.exception.CustomException;
-import com.example.mapper.ActivitySignMapper;
-import com.example.mapper.BlogMapper;
-import com.example.mapper.CommentMapper;
-import com.example.mapper.UserMapper;
+import com.example.mapper.*;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +16,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +35,9 @@ public class UserService {
 
     @Resource
     private BlogMapper blogMapper;
+
+    @Resource
+    private ImSingleMapper imSingleMapper;
 
     @Resource
     ActivitySignMapper activitySignMapper;
@@ -117,9 +118,29 @@ public class UserService {
     public List<User> selectAll(User user) {
         return userMapper.selectAll(user);
     }
-    public List<User> selectAllOnline(User userNo) {
+    public List<User> selectAllOnline(String userId) {
+//        System.out.println("在线ID"+userId);
+        List<User> userList = userMapper.selectAllonline();
+        List<User> userLastMessage = new ArrayList<>();//最后信息的
+        List<User> userOther = new ArrayList<>();//其他用户
+        List<Integer> lastMessageUser = imSingleMapper.selectLastMessage(userId);//按照这个顺序排列
+        for(int i=0;i<lastMessageUser.size();i++){
+            User user = userMapper.selectById(lastMessageUser.get(i));
+            if(user != null)
+            userLastMessage.add(user);
+        }
 
-        List<User> userList = userMapper.selectAll(userNo);
+        // 找出 userList 中不在 lastMessageUser 中的元素，然后添加到 userOther 中
+        for (User user : userList) {
+            if (!lastMessageUser.contains(user.getId())) {
+                userOther.add(user);
+            }
+        }
+        userList.clear();
+        userList.addAll(userLastMessage);
+        userList.addAll(userOther);
+
+        //评论区查到了但是人被删除了
         for(int i=0;i<userList.size();i++){
             String key = Integer.toString(userList.get(i).getId());
             String value = stringRedisTemplate.opsForValue().get(key);
@@ -130,10 +151,12 @@ public class UserService {
                 String info = "离线";
                 userList.get(i).setInfo(info);
             }
+            if(userList.get(i).getId().equals(10)){
+                userList.remove(i);
+            }
         }
 
-
-        System.out.println(userList);
+//        System.out.println(userList);
         return userList;
     }
 

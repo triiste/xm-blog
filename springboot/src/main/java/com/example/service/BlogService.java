@@ -63,7 +63,6 @@ public class BlogService {
         blog.setDate(DateUtil.today());
         Account currentUser = TokenUtils.getCurrentUser();
         if(RoleEnum.USER.name().equals(currentUser.getRole())){
-
             blog.setUserId(currentUser.getId());
         }
         blogMapper.insert(blog);
@@ -98,7 +97,11 @@ public class BlogService {
      * 修改
      */
     public void updateById(Blog blog) {
-        blogMapper.updateById(blog);
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(blog.getUserId().equals(currentUser.getId())){
+            blogMapper.updateById(blog);
+        }
+
     }
 
     /**

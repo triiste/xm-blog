@@ -10,7 +10,9 @@ import com.sun.scenario.effect.impl.es2.ES2ShaderSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,7 +34,9 @@ public class BlogController {
     @PostMapping("/add")
     public Result add(@RequestBody Blog blog) {
         blogService.add(blog);
-        return Result.success();
+        Map<String,String> idMap = new HashMap<>();
+        idMap.put("id",blog.getId().toString());
+        return Result.success(idMap);
     }
 
     /**

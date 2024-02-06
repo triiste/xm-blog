@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item label="封面" prop="cover">
           <el-upload
-              :action="'http://127.0.0.1:9090' + '/files/upload'"
+              :action="'http://47.109.28.131:9090' + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleCoverSuccess"
@@ -26,15 +26,15 @@
         </el-form-item>
         <el-form-item label="标签" prop="tags">
           <el-select v-model="tagsArr" multiple filterable allow-create default-first-option style="width: 100%">
-            <el-option value="后端"></el-option>
             <el-option value="Java"></el-option>
-            <el-option value="面试"></el-option>
-            <el-option value="Vue"></el-option>
-            <el-option value="前端"></el-option>
-            <el-option value="大数据"></el-option>
+            <el-option value="Docker"></el-option>
+            <el-option value="Redis"></el-option>
+            <el-option value="Mysql"></el-option>
+            <el-option value="SpingBoot"></el-option>
+            <el-option value="vue"></el-option>
+            <el-option value="LeetCode"></el-option>
             <el-option value="算法"></el-option>
-            <el-option value="程序员"></el-option>
-            <el-option value="小白"></el-option>
+<!--            <el-option value="小白"></el-option>-->
           </el-select>
         </el-form-item>
 <!--        <el-form-item label="内容" prop="content">-->
@@ -56,10 +56,13 @@
 </template>
 
 <script>
-import E from "wangeditor";
+// import E from "wangeditor";
 import hljs from "highlight.js";
 import axios from "axios";
 import Footer from "@/components/Footer";
+import markdownIt from 'markdown-it';
+import mavonEditor from 'mavon-editor';
+
 
 export default {
   components: {
@@ -78,6 +81,7 @@ export default {
     }
   },
   mounted() {
+
     this.$request.get('/category/selectAll').then(res => {
       this.categoryList = res.data || []
     })
@@ -106,7 +110,11 @@ export default {
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
               if(!this.form.id){
+                // console.log(res.data)
                 this.$message.success('发布成功')
+                setTimeout(() => {
+                  location.href = "/front/blogDetail?blogId="+parseInt(res.data.id)
+                },500)
               }else{
                 this.$message.success('保存成功')
                 setTimeout(() => {
@@ -127,7 +135,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://47.109.28.131:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -146,7 +154,7 @@ export default {
       const formData = new FormData();
       formData.append('file', $file);
       axios({
-        url: 'http://127.0.0.1:9090/files/editor/upload',
+        url: 'http://47.109.28.131:9090/files/editor/upload',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
@@ -154,7 +162,7 @@ export default {
         // 在Markdown文本中插入图片
         var url = res.data.data[0].url
         // console.log(url)
-        // const markdownText = `http://127.0.0.1:9090/files/1705996022610-头像.jpg`;
+        // const markdownText = `http://47.109.28.131:9090/files/1705996022610-头像.jpg`;
         $vm.$img2Url(pos, url);
       })
     },

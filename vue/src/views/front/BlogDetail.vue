@@ -16,18 +16,18 @@
             <span v-if="blog.userId == this.user.id" style="margin-left: 40px; color: #2a60c9; cursor: pointer" @click="editBlog(blog.id)"><i class="el-icon-edit"></i>编辑</span>
             <span v-if="blog.userId == this.user.id" style="margin-left: 10px; color: red; cursor: pointer" @click="del(blog.id)"><i class="el-icon-delete"></i>删除</span>
           </div>
-          <mavon-editor
-              ref="mavonEditor"
-              class="md"
-              :value="blog.content"
-              :subfield="false"
-              :defaultOpen="'preview'"
-              :toolbarsFlag="false"
-              :editable="false"
-              :scrollStyle="true"
-              :ishljs="true"
+        <mavon-editor
+            ref="mavonEditor"
+            class="md"
+            :value="blog.content"
+            :subfield="false"
+            :defaultOpen="'preview'"
+            :toolbarsFlag="false"
+            :editable="false"
+            :scrollStyle="true"
+            :ishljs="true"
 
-          />
+        />
 
         </div>
 
@@ -123,6 +123,7 @@ export default {
 
     }
   },
+  mounted() {},
   created() {
 
     this.load()
@@ -185,7 +186,7 @@ export default {
       this.$request.get('/blog/selectRecommend/' + this.blogId).then(res => {
         this.recommendList = res.data || []
       })
-    }
+    },
   }
 }
 </script>

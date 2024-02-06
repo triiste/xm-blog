@@ -48,7 +48,6 @@
 
 <script>
 import Identify from "@/components/Identify";
-
 export default {
   name: "Login",
   components: {
@@ -92,10 +91,7 @@ export default {
       this.form1.username = '666'
       this.form1.password = '666'
       this.$request.post('/login', this.form1).then(res => {
-        console.log("到这没1有")
-
         if (res.code === '200') {
-          console.log("到这没2有")
           localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
           this.$message.success('访客模式')
           setTimeout(() => {
@@ -125,7 +121,6 @@ export default {
               localStorage.setItem("xm-user", JSON.stringify(res.data))  // 登录之后在本地存储用户数据
               this.$message.success('登录成功')
 
-
               setTimeout(() => {
                 // 跳转主页通过location,可能导致前台变黑，闪屏
                 if (res.data.role === 'ADMIN') {
@@ -151,7 +146,7 @@ export default {
 .container {
   height: 100vh;
   overflow: hidden;
-  background-image: url("@/assets/imgs/deng.jpg");
+  background-image: url("@/assets/imgs/work-3410294_1920.jpg");
   /*background-size: 100%;*/
   background-size: cover;
   display: flex;

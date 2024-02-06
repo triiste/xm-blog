@@ -28,7 +28,7 @@ public class FileController {
     @Value("${server.port:9090}")
     private String port;
 
-    @Value("${ip:127.0.0.1}")
+    @Value("${ip:47.109.28.131}")
     private String ip;
 
     /**
@@ -54,7 +54,7 @@ public class FileController {
             System.err.println(fileName + "--文件上传失败");
         }
         String http = "http://" + ip + ":" + port + "/files/";
-        return Result.success(http + flag + "-" + fileName);  //  http://127.0.0.1:9090/files/1697438073596-avatar.png
+        return Result.success(http + flag + "-" + fileName);  //  http://47.109.28.131:9090/files/1697438073596-avatar.png
     }
 
 

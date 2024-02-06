@@ -29,5 +29,6 @@ public interface UserMapper {
     @Select("select * from activity_sign where activity_sign.user_id = #{id}")
     List<ActivitySign> selectUserAllSign(@Param("id") Integer id);
 
-
+    @Select("select * from user")
+    List<User> selectAllonline();
 }
