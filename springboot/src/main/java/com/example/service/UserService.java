@@ -151,9 +151,6 @@ public class UserService {
                 String info = "离线";
                 userList.get(i).setInfo(info);
             }
-            if(userList.get(i).getId().equals(10)){
-                userList.remove(i);
-            }
         }
 
 //        System.out.println(userList);

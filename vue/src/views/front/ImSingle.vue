@@ -108,7 +108,7 @@
             </el-popover>
             <!--            上传图片文件-->
             <div style="margin-left: 5px">
-              <el-upload action="http://47.109.28.131:9090/files/upload" :show-file-list="false" :on-success="handleFile">
+              <el-upload action="http://127.0.0.1:9090/files/upload" :show-file-list="false" :on-success="handleFile">
                 <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
               </el-upload>
             </div>
@@ -177,7 +177,7 @@ export default {
     this.fromUser = this.fromUser + ""
     // 字符串存储
     let id = this.user?.id.toString();
-    client = new WebSocket(`ws://47.109.28.131:9090/imserverSingle/${id}`)
+    client = new WebSocket(`ws://127.0.0.1:9090/imserverSingle/${id}`)
     client.onopen = () => {
       console.log('websocket open')
     }
@@ -217,7 +217,7 @@ export default {
 
     request.get('/user/selectAllOnline?userId='+ this.user.id.toString()).then(res => {
       //过滤掉自己就可以 //实时刷新
-      res.data = res.data.filter(v => v.id  !== this.user.id )
+      res.data = res.data.filter(v => v.id  !== this.user.id && v.id !== 10)
       this.$set(this.users, 'USER', res.data)
     })
 
@@ -272,7 +272,7 @@ export default {
       // '/imsingle/unReadNums?toUsername=' + this.fromUser.toString()
       request.get('/user/selectAllOnline?userId='+ this.user.id.toString()).then(res => {
         //过滤掉自己就可以 //实时刷新
-        res.data = res.data.filter(v => v.id  !== this.user.id )
+        res.data = res.data.filter(v => v.id  !== this.user.id && v.id !== 10)
         this.$set(this.users, 'USER', res.data)
       })
     },
@@ -417,10 +417,13 @@ export default {
   max-width: 50%;
   line-height: 20px;
   width: fit-content;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .im-message-left {
-  background-color: #fff;
+  background-color: rgba(167, 79, 79, 0.05);
 
 }
 

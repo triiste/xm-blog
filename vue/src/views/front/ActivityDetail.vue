@@ -8,8 +8,8 @@
           <div style="font-weight: bold; font-size: 24px; margin-bottom: 10px">{{ activity.name }}</div>
           <div style="color: #666; font-size: 13px; line-height: 22px; text-align: justify; margin-bottom: 10px">{{ activity.descr }}</div>
           <div style="color: #666; margin-bottom: 10px"><i class="el-icon-date"></i> 时间 <span style="margin-left: 5px">{{ activity.start }} ~ {{ activity.end }}</span></div>
-          <div style="color: #666; margin-bottom: 10px"><i class="el-icon-location"></i> 地址
-            <a style="color: #2a60c9; margin-left: 5px" :href="activity.address" v-if="activity.form === '线上'">{{ activity.address }}</a>
+          <div style="color: #666; margin-bottom: 10px"><i class="el-icon-location"></i> 商品地址
+            <a style="color: #2a60c9; margin-left: 5px" :href="activity.address" v-if="activity.form === '线上'" target="_blank">{{ activity.address }}</a>
             <span style="margin-left: 5px" v-else>{{ activity.address }}</span>
             <el-tag style="margin-left: 5px" type="primary" size="mini">{{ activity.form }}</el-tag>
           </div>
@@ -21,6 +21,8 @@
                 <el-button type="success" v-else-if="activity.isSign" :key="signText" @click="cancel"
                            @mouseenter.native="signText = '取消报名'" @mouseleave.native="signText = '已报名'">{{ signText }}</el-button>
                 <el-button type="primary" v-else @click="sign">报 名</el-button>
+
+                <el-button  type="primary" style="margin-left: 5px;background-color: green" >购 买</el-button>
               </div>
 
               <div style="text-align: right; flex: 1">
@@ -75,7 +77,7 @@ export default {
       this.$confirm('您确定取消报名吗？', '确认取消', {type: "warning"}).then(response => {
         this.$request.delete('/activitySign/delete/user/' + this.activityId + '/' + this.user.id).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            // this.$message.success('操作成功')
             this.load()
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -87,7 +89,7 @@ export default {
     collect() {
       this.$request.post('/collect/set', { fid: this.activityId, module: '活动' }).then(res => {
         if (res.code === '200') {
-          this.$message.success('操作成功')
+          // this.$message.success('操作成功')
           this.load()
         } else {
           this.$message.error(res.msg)
@@ -97,7 +99,7 @@ export default {
     like() {
       this.$request.post('/likes/set', { fid: this.activityId, module: '活动' }).then(res => {
         if (res.code === '200') {
-          this.$message.success('操作成功')
+          // this.$message.success('操作成功')
           this.load()
         } else {
           this.$message.error(res.msg)
@@ -107,7 +109,7 @@ export default {
     sign() {
       this.$request.post('/activitySign/add', { activityId: this.activityId }).then(res => {
         if (res.code === '200') {
-          this.$message.success('报名成功')
+          // this.$message.success('报名成功')
           this.load()
         } else {
           this.$message.error(res.msg)

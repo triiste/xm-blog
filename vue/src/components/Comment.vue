@@ -6,8 +6,8 @@
 
     <div style="margin-bottom: 20px">
       <el-input type="textarea" placeholder="请输入评论内容" v-model="commentContent"></el-input>
-      <div style="text-align: right; margin-top: 5px">
-        <el-button type="primary" @click="addComment">评 论</el-button>
+      <div style="text-align: right; margin-top: 5px" @keydown.enter.prevent @keyup.enter="addComment">
+        <el-button type="primary" @click="addComment"  >评 论</el-button>
       </div>
     </div>
     <div>

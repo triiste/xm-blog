@@ -10,15 +10,22 @@
           <el-input type="textarea" v-model="form.descr" placeholder="简介"></el-input>
         </el-form-item>
         <el-form-item label="封面" prop="cover">
-          <el-upload
-              :action="'http://47.109.28.131:9090' + '/files/upload'"
-              :headers="{ token: user.token }"
-              list-type="picture"
-              :on-success="handleCoverSuccess"
-          >
-            <el-button type="primary">上传封面</el-button>
-          </el-upload>
+          <div style="display: flex;">
+            <el-upload
+                :action="'http://127.0.0.1:9090' + '/files/upload'"
+                :headers="{ token: user.token }"
+                list-type="picture"
+                :on-success="handleCoverSuccess"
+            >
+              <el-button type="primary">上传封面</el-button>
+            </el-upload>
+
+            <el-button type="primary" @click="generateCover" style="margin-left: 5px">生成封面</el-button>
+          </div>
+
+          <canvas v-if="showCanvas" ref="coverCanvas" width="300" height="150" style="margin-top: 5px;"></canvas>
         </el-form-item>
+
         <el-form-item label="分类" prop="categoryId">
           <el-select v-model="form.categoryId" style="width: 100%">
             <el-option v-for="item in categoryList" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -77,7 +84,9 @@ export default {
       tagsArr: [],
       categoryList: [],
       editor: null,
-      blogId: this.$route.query.blogId
+      blogId: this.$route.query.blogId,
+      imageDataURL:'',
+      showCanvas: false, // 初始时不显示 canvas
     }
   },
   mounted() {
@@ -98,7 +107,82 @@ export default {
     // this.setRichText()
   },
   methods: {
-    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+    generateCover() {
+
+      console.log(this.tagsArr)
+      if(this.tagsArr.length === 0){
+        this.$notify.error("请先输入标签!")
+        return
+      }
+      this.showCanvas = true;
+      this.$nextTick(() => {
+        const canvas = this.$refs.coverCanvas;
+        const context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 生成随机背景颜色（蓝色或绿色）
+        const randomColor = Math.random() < 0.5 ? "#007acc" : "#00a854"; // 蓝色或绿色
+
+
+
+        // 设置背景颜色
+        context.fillStyle = randomColor;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        var randomNumber = Math.floor(Math.random() * this.tagsArr.length);
+        // 添加标签文本
+        const text = "#"+this.tagsArr[randomNumber];
+        context.font = "bold 48px Arial"; // 调整字体大小
+        context.fillStyle = "#000"; // 设置文字颜色为黑色
+        // 计算文本宽度和高度
+        const textMetrics = context.measureText(text);
+        const textWidth = textMetrics.width;
+        const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+
+// 设置文本位置为画布中心
+        const centerX = canvas.width / 2 - textWidth / 2;
+        const centerY = canvas.height / 2 + textHeight / 2;
+        context.fillText(text, centerX, centerY);
+        // 将生成的图片保存为DataURL
+        this.imageDataURL = canvas.toDataURL("image/png");
+      });
+    },
+
+    uploadGeneratedImage(imageDataURL) {
+      const imageData = imageDataURL.split(',')[1];
+      const binaryImageData = atob(imageData);
+      const arrayBuffer = new ArrayBuffer(binaryImageData.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < binaryImageData.length; i++) {
+        uint8Array[i] = binaryImageData.charCodeAt(i);
+      }
+      // 使用 File 对象创建 FormData
+      const file = new File([new Blob([arrayBuffer], { type: 'image/png' })], 'image.png', { type: 'image/png' });
+      const formData = new FormData();
+      formData.append('file', file);
+      axios({
+        url: 'http://127.0.0.1:9090/files/editor/upload',
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      }).then((res) => {
+        // 在Markdown文本中插入图片
+
+        var url = res.data.data[0].url
+
+        this.form.cover = url
+        // this.$notify.error(this.form.cover)
+        // console.log("正在执行中"+url);
+        // $vm.$img2Url(pos, url);
+      });
+    },
+
+    async save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+      if(this.imageDataURL !== ''){
+        console.log("执行了没有")
+        this.uploadGeneratedImage(this.imageDataURL);
+        await  new Promise(resolve => setTimeout(resolve,200));
+      }
+      console.log("cishide "+this.form.cover)
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.tags = JSON.stringify(this.tagsArr)  // 把json数组转换成json字符串存到数据库
@@ -135,7 +219,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://47.109.28.131:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -154,7 +238,7 @@ export default {
       const formData = new FormData();
       formData.append('file', $file);
       axios({
-        url: 'http://47.109.28.131:9090/files/editor/upload',
+        url: 'http://127.0.0.1:9090/files/editor/upload',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
@@ -162,7 +246,7 @@ export default {
         // 在Markdown文本中插入图片
         var url = res.data.data[0].url
         // console.log(url)
-        // const markdownText = `http://47.109.28.131:9090/files/1705996022610-头像.jpg`;
+        // const markdownText = `http://127.0.0.1:9090/files/1705996022610-头像.jpg`;
         $vm.$img2Url(pos, url);
       })
     },

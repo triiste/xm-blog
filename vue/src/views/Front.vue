@@ -5,7 +5,7 @@
     <div class="front-header">
       <div class="front-header-left">
         <img src="@/assets/imgs/computer.png" alt="">
-        <div class="title">计算机交流论坛</div>
+        <div class="title">计算机交流博客</div>
       </div>
       <div class="front-header-center">
         <div class="front-header-nav">
@@ -93,7 +93,7 @@ export default {
             if (i === this.notice.length) {
               i = 0
             }
-          }, 2500)
+          }, 3500)
         }
       })
     },

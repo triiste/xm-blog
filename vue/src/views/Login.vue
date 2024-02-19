@@ -2,7 +2,7 @@
   <div class="container">
     <div style="width: 380px; padding: 30px 30px; background-color: rgba(255, 255, 255, 0.4);; border-radius: 5px;">
       <div style="text-align: center; font-size: 24px; margin-bottom: 30px; color:#000b17; text-shadow: 0 0 10px rgba(53,217,81,0.33);">
-        计算机交流论坛
+        计算机交流博客
       </div>
       <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item prop="username">
