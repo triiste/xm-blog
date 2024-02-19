@@ -5,13 +5,18 @@
       <div class="manager-header-left">
         <img src="@/assets/imgs/logo.png" />
         <div class="title">后台管理系统</div>
+
       </div>
 
       <div class="manager-header-center">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
+
+
         </el-breadcrumb>
+        <el-button type="primary" style="margin-left: 15px;font-size: 15px" @click="backup">备份数据库</el-button>
+        <el-button type="primary" style="margin-left: 15px;font-size: 15px" @click="refresh">恢复数据</el-button>
       </div>
 
       <div class="manager-header-right">
@@ -72,6 +77,8 @@
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
   name: "Manager",
   data() {
@@ -86,6 +93,25 @@ export default {
     }
   },
   methods: {
+    refresh(){
+      this.$request.get('/back/excute').then(res =>{
+        if (res.code === '200'){
+          this.$message.success('恢复成功')
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    backup(){
+      this.$request.get('/back/backup').then(res =>{
+        if (res.code === '200'){
+          this.$message.success('备份成功')
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+
     updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
     },

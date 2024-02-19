@@ -34,7 +34,7 @@
         <div v-else>
           <el-dropdown>
             <div class="front-header-dropdown">
-              <img :src="user.avatar" alt="">
+              <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="">
               <div style="margin-left: 10px">
                 <span style="color: #FFF">{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>

@@ -29,6 +29,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\BlogService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\common\enums\LikesModuleEnum.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\AdminService.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\ScheduledTasks.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\NoticeController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Activity.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\entity\Collect.java
@@ -53,6 +54,7 @@ C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\exa
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\BlogMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\CollectService.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\CategoryController.java
+C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\controller\BackupController.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\ActivityMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\mapper\ActivitySignMapper.java
 C:\Users\wcf\springboot-vue框架实操\xm-blog\springboot\src\main\java\com\example\service\CategoryService.java

@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="封面" prop="cover">
           <el-upload
-              :action="'http://127.0.0.1:9090' + '/files/upload'"
+              :action="'http://62.234.62.75:9090' + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleCoverSuccess"
@@ -108,7 +108,7 @@
 
 
 
-        <el-form-item label="文章内容" prop="content">
+        <el-form-item label="文章内容" prop="content" style="max-height: 300px; overflow-y: auto">
           <mavon-editor ref="md" v-model="form.content" :ishljs="true" @imgAdd="imgAdd"/>
         </el-form-item>
 
@@ -288,7 +288,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://62.234.62.75:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -306,7 +306,7 @@ export default {
       const formData = new FormData();
       formData.append('file', $file);
       axios({
-        url: 'http://127.0.0.1:9090' + '/files/editor/upload',
+        url: 'http://62.234.62.75:9090' + '/files/editor/upload',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},

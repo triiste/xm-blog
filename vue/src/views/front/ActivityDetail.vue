@@ -22,7 +22,10 @@
                            @mouseenter.native="signText = '取消报名'" @mouseleave.native="signText = '已报名'">{{ signText }}</el-button>
                 <el-button type="primary" v-else @click="sign">报 名</el-button>
 
-                <el-button  type="primary" style="margin-left: 5px;background-color: green" >购 买</el-button>
+
+                <el-button type="primary" style="margin-left: 5px; background-color: green" @click="redirectToExternalSite">购 买</el-button>
+
+
               </div>
 
               <div style="text-align: right; flex: 1">
@@ -73,6 +76,11 @@ export default {
     this.$request.put('/activity/updateReadCount/' + this.activityId)
   },
   methods: {
+    redirectToExternalSite() {
+      // 使用 window.location.href 跳转
+      if(this.activity.form === '线上')
+      window.open(this.activity.address, '_blank');
+    },
     cancel() {   // 单个删除
       this.$confirm('您确定取消报名吗？', '确认取消', {type: "warning"}).then(response => {
         this.$request.delete('/activitySign/delete/user/' + this.activityId + '/' + this.user.id).then(res => {

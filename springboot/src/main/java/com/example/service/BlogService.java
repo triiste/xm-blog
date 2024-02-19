@@ -227,11 +227,11 @@ public class BlogService {
         if(ObjectUtil.isNotEmpty(tags)){
             //查出所有博客数据
             List<Blog> bLogList = this.selectAll(null);
-            JSONArray tagsArr = JSONUtil.parseArray(tags);
+            JSONArray tagsArr = JSONUtil.parseArray(tags); //当前博客的标签
             for(Object tag:tagsArr){
                 //筛选出其他包含当前博客标签的一个就行
                 //去除当前博客
-                Set<Blog> collect = bLogList.stream().filter(b -> b.getTags().contains(tags.toString()) && !blogId.equals(b.getId()))
+                Set<Blog> collect = bLogList.stream().filter(b -> b.getTags().contains(tag.toString()) && !blogId.equals(b.getId()))
                         .collect(Collectors.toSet());
                 blogSet.addAll(collect); //自动去重
             }

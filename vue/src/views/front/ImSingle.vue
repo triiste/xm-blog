@@ -108,7 +108,7 @@
             </el-popover>
             <!--            上传图片文件-->
             <div style="margin-left: 5px">
-              <el-upload action="http://127.0.0.1:9090/files/upload" :show-file-list="false" :on-success="handleFile">
+              <el-upload action="http://62.234.62.75:9090/files/upload" :show-file-list="false" :on-success="handleFile">
                 <i class="fa fa-folder-open-o" style="font-size: 20px; color: #666;"></i>
               </el-upload>
             </div>
@@ -177,7 +177,7 @@ export default {
     this.fromUser = this.fromUser + ""
     // 字符串存储
     let id = this.user?.id.toString();
-    client = new WebSocket(`ws://127.0.0.1:9090/imserverSingle/${id}`)
+    client = new WebSocket(`ws://62.234.62.75:9090/imserverSingle/${id}`)
     client.onopen = () => {
       console.log('websocket open')
     }

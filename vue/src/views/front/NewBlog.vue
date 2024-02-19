@@ -12,7 +12,7 @@
         <el-form-item label="封面" prop="cover">
           <div style="display: flex;">
             <el-upload
-                :action="'http://127.0.0.1:9090' + '/files/upload'"
+                :action="'http://62.234.62.75:9090' + '/files/upload'"
                 :headers="{ token: user.token }"
                 list-type="picture"
                 :on-success="handleCoverSuccess"
@@ -160,7 +160,7 @@ export default {
       const formData = new FormData();
       formData.append('file', file);
       axios({
-        url: 'http://127.0.0.1:9090/files/editor/upload',
+        url: 'http://62.234.62.75:9090/files/editor/upload',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
@@ -180,7 +180,7 @@ export default {
       if(this.imageDataURL !== ''){
         console.log("执行了没有")
         this.uploadGeneratedImage(this.imageDataURL);
-        await  new Promise(resolve => setTimeout(resolve,200));
+        await  new Promise(resolve => setTimeout(resolve,500));
       }
       console.log("cishide "+this.form.cover)
       this.$refs.formRef.validate((valid) => {
@@ -219,7 +219,7 @@ export default {
       this.$nextTick(() => {
         this.editor = new E(`#editor`)
         this.editor.highlight = hljs
-        this.editor.config.uploadImgServer = 'http://127.0.0.1:9090' + '/files/editor/upload'
+        this.editor.config.uploadImgServer = 'http://62.234.62.75:9090' + '/files/editor/upload'
         this.editor.config.uploadFileName = 'file'
         this.editor.config.uploadImgHeaders = {
           token: this.user.token
@@ -238,7 +238,7 @@ export default {
       const formData = new FormData();
       formData.append('file', $file);
       axios({
-        url: 'http://127.0.0.1:9090/files/editor/upload',
+        url: 'http://62.234.62.75:9090/files/editor/upload',
         method: 'post',
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'},
@@ -246,7 +246,7 @@ export default {
         // 在Markdown文本中插入图片
         var url = res.data.data[0].url
         // console.log(url)
-        // const markdownText = `http://127.0.0.1:9090/files/1705996022610-头像.jpg`;
+        // const markdownText = `http://62.234.62.75:9090/files/1705996022610-头像.jpg`;
         $vm.$img2Url(pos, url);
       })
     },

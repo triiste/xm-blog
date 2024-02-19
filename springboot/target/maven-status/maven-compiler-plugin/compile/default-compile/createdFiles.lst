@@ -4,10 +4,12 @@ com\example\common\config\WebSocketSingleServer.class
 com\example\common\enums\LikesModuleEnum.class
 com\example\common\config\RedisConfig.class
 com\example\common\config\WebSocketConfig.class
+com\example\controller\BackupController.class
 com\example\entity\Blog.class
 com\example\controller\ActivityController.class
 com\example\exception\CustomException.class
 com\example\service\ActivityService.class
+com\example\controller\ScheduledTasks.class
 com\example\controller\CollectController.class
 com\example\mapper\NoticeMapper.class
 com\example\entity\Activity.class

@@ -4,13 +4,13 @@
       <div style="text-align: center; font-size: 24px; margin-bottom: 30px; color: #333">😄欢迎注册😄</div>
       <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item prop="username">
-          <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入账号" v-model="form.username"></el-input>
+          <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入账号" v-model="form.username" :maxlength="10"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input size="medium" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password  v-model="form.password"></el-input>
+          <el-input size="medium" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password  v-model="form.password" :maxlength="16"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPass">
-          <el-input size="medium" prefix-icon="el-icon-lock" placeholder="请确认密码" show-password  v-model="form.confirmPass"></el-input>
+          <el-input size="medium" prefix-icon="el-icon-lock" placeholder="请确认密码" show-password  v-model="form.confirmPass" :maxlength="16"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button size="medium" style="width: 100%; background-color: #2a60c9; border-color: #2a60c9; color: white" @click="register">注 册</el-button>
